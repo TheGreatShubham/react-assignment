@@ -1,35 +1,26 @@
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
-
-import { history } from '_helpers';
-import { Nav, PrivateRoute } from '_components';
-import { Home } from 'home';
-import { Login } from 'login';
-
-export { App };
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import DashboardPage from "./DashboardPage";
+import NewCardForm from "./NewCardForm";
 
 function App() {
-    // init custom history object to allow navigation from 
-    // anywhere in the react app (inside or outside components)
-    history.navigate = useNavigate();
-    history.location = useLocation();
-
-    return (
-        <div className="app-container bg-light">
-            <Nav />
-            <div className="container pt-4 pb-4">
-                <Routes>
-                <Route
-                        path="/"
-                        element={
-                            <PrivateRoute>
-                                <Home />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-            </div>
-        </div>
-    );
+  // ...
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/login">
+          {/* ... */}
+        </Route>
+        <Route exact path="/dashboard">
+          {/* ... */}
+        </Route>
+        <Route exact path="/cards/new">
+          {authenticated ? <NewCardForm /> : <Redirect to="/login" />}
+        </Route>
+        <Redirect to="/dashboard" />
+      </Switch>
+    </Router>
+  );
 }
+
+export default App;
